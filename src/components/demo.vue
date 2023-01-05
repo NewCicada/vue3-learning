@@ -72,10 +72,18 @@ export default {
 
     // 情况五:监视reactive所定义的一个响应式数据中的某些属性
 
-    watch([() => person.name, () => person.age], (newValue, oldValue) => {
+    /*   watch([() => person.name, () => person.age], (newValue, oldValue) => {
       console.log('person的name变化了', newValue, oldValue)
-    })
+    }) */
 
+    // 特殊情况
+    /*   watch(
+      () => person.job,
+      (newValue, oldValue) => {
+        console.log('person的job变化了', newValue, oldValue)
+      },
+      { deep: true }
+    ) //此处由于监视的是reactive素定义的对象中的某个属性，所以deep配置有效 */
     // 返回一个对象(常用)
     return {
       sum,
