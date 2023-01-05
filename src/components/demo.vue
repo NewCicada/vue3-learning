@@ -8,12 +8,13 @@
   <h2>姓名:{{ person.name }}</h2>
   <h2>年龄:{{ person.age }}</h2>
   <h2>薪资:{{ person.job.j1.salary }}K</h2>
-  <button @click="person.age++">修改姓名</button>
+  <button @click="person.name += '~'">修改姓名</button>
+  <button @click="person.age++">增长年龄</button>
   <button @click="person.job.j1.salary++">涨薪</button>
 </template>
 
 <script>
-import { reactive, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Demo',
@@ -21,7 +22,7 @@ export default {
     // 数据
     let sum = ref(0)
     let msg = ref('你好啊')
-    let person = reactive({
+    let person = ref({
       name: '张三',
       age: 18,
       job: {
@@ -30,18 +31,33 @@ export default {
         },
       },
     })
-    console.log(person)
 
-    watch(sum, (newValue, oldValue) => {
-      console.log('sum的值变化了', newValue, oldValue)
+    // 监测的不是一个值，而是一个保存值的结构(不能写成sum,value) 不能监视一个具体的值注意
+    watch(sum, (nv, ov) => {
+      console.log(nv, ov)
     })
+    console.log(person)
+    // person是RefImpl
+    // 开启深度监视不会存在问题
     watch(
       person,
-      (newValue, oldValue) => {
-        console.log('person的值变化了', newValue, oldValue)
+      (nv, ov) => {
+        console.log(nv, ov)
       },
-      { deep: true }
+      {
+        deep: true,
+      }
     )
+    //这里如果不是person.value则会出现问题 因为person是一个RefImpl(默认没开启深度监视)
+    //但是person.value是一个借助了proxy生成的reactive响应式对象 所以这里可以解决问题
+    // watch(person.value, (nv, ov) => {
+    //   console.log(nv, ov);
+    // });
+
+    console.log(sum)
+    console.log(msg)
+    console.log(person)
+
     // 返回一个对象(常用)
     return {
       sum,
