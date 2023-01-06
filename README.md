@@ -437,3 +437,36 @@ setup(props,context){
 - isReactive: 检查一个对象是否是由`reactive`创建的响应式代理
 - isReadonly: 检查一个对象是否是由`readonly`创建的只读代理
 - isProxy: 检查一个对象是否是由`reactive`或者`readonly`方法创建的代理
+
+# 四、Composition API 的优势
+## 1.Options API 存在的问题
+使用传统OptionsAPI中，新增或者修改一个需求，就需要分别在data，methods，computed里修改 。
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f84e4e2c02424d9a99862ade0a2e4114~tplv-k3u1fbpfcp-watermark.image">
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e5ac7e20d1784887a826f6360768a368~tplv-k3u1fbpfcp-watermark.image">
+
+## 2.Composition API 的优势
+- 我们可以更加优雅的组织我们的代码，函数。让相关功能的代码更加有序的组织在一起。
+
+# 五、新的组件
+
+## 1.Fragment
+
+- 在Vue2中: 组件必须有一个根标签
+- 在Vue3中: 组件可以没有根标签, 内部会将多个标签包含在一个Fragment虚拟元素中
+- 好处: 减少标签层级, 减小内存占用
+
+## 2.Teleport
+
+- 什么是Teleport？
+- —— `Teleport` 是一种能够将我们的<strong style="color:#DD5145">组件html结构</strong>移动到指定位置的技术。
+
+```vue
+  <teleport to="移动位置">
+  	<div v-if="isShow" class="mask">
+  		<div class="dialog">
+  			<h3>我是一个弹窗</h3>
+  			<button @click="isShow = false">关闭弹窗</button>
+  		</div>
+  	</div>
+  </teleport>
+```
